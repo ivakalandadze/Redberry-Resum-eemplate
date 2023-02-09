@@ -1,7 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Education() {
   return (
-    <div>Education</div>
+    <div>
+        <Link to='/experience'><button>უკან</button></Link>
+        <Link to='/education'><button>დასრულება</button></Link>
+    </div>
   )
 }
