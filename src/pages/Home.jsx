@@ -35,7 +35,6 @@ export default function Home() {
   },[])
   return (
     <div>
-        <div>{resumeIsDone? "lomi" : "vefxvi"}</div>
         <Link to="Info"><button>რესუმეს დამატება</button></Link>
     </div>
   )

@@ -155,7 +155,7 @@ export default function Info() {
           </div>
       </div>
       <footer className='footer'>
-        <Link to="/experience"><button onClick={handleSubmit}>შემდეგი</button></Link>
+        <Link className={`${ready ? "" : "disabled-"}next-button`} to="/experience"><button onClick={handleSubmit}>შემდეგი</button></Link>
       </footer>
     </div>
   )

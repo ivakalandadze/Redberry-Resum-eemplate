@@ -1,6 +1,7 @@
 import React from 'react'
 
 export default function JobDescriptionOutput(props) {
+    
     const {position, company, startDate, endDate, jobDescription} = props.exp
   return (
     <div>

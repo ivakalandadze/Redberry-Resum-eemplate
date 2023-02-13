@@ -111,7 +111,7 @@ export default function Experience() {
       </div>
       <footer className='footer'>
         <Link to='/info'><button>უკან</button></Link>
-        <Link to='/education'><button onClick={handleSubmit}>შემდეგი</button></Link>
+        <Link className={`${ready ? "" : "disabled-"}next-button`} to='/education'><button className={`${ready ? "" : "disabled-"}next-button`} onClick={handleSubmit}>შემდეგი</button></Link>
       </footer>
     </div>
   ) 
