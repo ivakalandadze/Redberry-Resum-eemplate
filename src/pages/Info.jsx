@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom'
 import { UserContext} from '../context/UserContext'
 
 export default function Info() {
-  const {personalInfo, setPersonalInfo} = useContext(UserContext)
+  const {personalInfo, setPersonalInfo, resume, setResume} = useContext(UserContext)
   const [personalInfoValidation, setPersonalInfoValidation] = useState({
     firstName: "N/A",
     lastName: "N/A",
     email: "N/A",
     phoneNum: "N/A"
-
   })
+  const [ready, setReady] = useState(false)
 
   const nameRegex = /^[ა-ჰ]+$/;
-  const emailRegex = /^[a-zA-Z0-9.]+@redberry.ge$/;
-  const phoneNumRegex = /^[+]{1}[\d]{3}[\s|\-]?[\d]{3}[\s|\-]?[\d]{2}[\s|\-]?[\d]{2}[\s|\-]?[\d]{2}[\s|\-]?$/
+  const emailRegex = /^[a-zA-Z0-9.]+@redberry.ge$/i;
+  const phoneNumRegex = /^[+](995)[\s|\-]?[\d]{3}[\s|\-]?[\d]{2}[\s|\-]?[\d]{2}[\s|\-]?[\d]{2}[\s|\-]?$/
   useEffect(()=>{
     for (const key in personalInfo){
       if(key==="firstName" || key==="lastName"){
@@ -53,6 +53,19 @@ export default function Info() {
           }))
         }
       }
+      if(key==="photo"){
+        if(personalInfo[key].length>0){
+          setPersonalInfoValidation(prevVal=>({
+            ...prevVal,
+            [key]: true
+          }))
+        }else {
+          setPersonalInfoValidation(prevVal=>({
+            ...prevVal,
+            [key]: "N/A"
+          }))
+        }
+      }
       if(key==="phoneNum"){
         if(personalInfo[key].match(phoneNumRegex)){
           setPersonalInfoValidation(prevVal=>({
@@ -76,12 +89,30 @@ export default function Info() {
     localStorage.setItem("personalInfo",JSON.stringify(personalInfo))
   },[personalInfo])
 
+  useEffect(() => {
+    if(Object.values(personalInfoValidation).every(validation=>validation===true)){
+      setReady(true)
+    }else {
+      setReady(false)
+    }
+  }, [personalInfoValidation])
+
   const handleChange = (e) => {
-    const {name, value} = e.target
+    const {name, value, files} = e.target
+    if(name==="photo") console.log(files[0])
     setPersonalInfo(prevInfo=>({
       ...prevInfo,
-      [name]: value
+      [name]: name==="photo" && files ? URL.createObjectURL(files[0]) : value
     }))
+  }
+
+  const handleSubmit = () => {
+    if(ready){
+      setResume(prevState=>({
+        ...prevState,
+        personalInfo:personalInfo
+      }))
+    }
   }
   return (
     <div className='form-container'>
@@ -124,7 +155,7 @@ export default function Info() {
           </div>
       </div>
       <footer className='footer'>
-        <Link to="/experience"><button>შემდეგი</button></Link>
+        <Link to="/experience"><button onClick={handleSubmit}>შემდეგი</button></Link>
       </footer>
     </div>
   )

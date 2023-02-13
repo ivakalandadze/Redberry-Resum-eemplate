@@ -21,22 +21,27 @@ function App() {
     email: "",
     phoneNum: ""
   })
-  const [expInfo, setExpInfo] = useState({
-    position: [],
-    company: [],
-    startDate: [],
-    endDate: [],
-    jobDescription: []
-  })
-  const [educationInfo, setEducationInfo] = useState({
-    place: [],
-    degree: [],
-    graduationDate: [],
-    studyDescription: [],
+  const [expInfo, setExpInfo] = useState(JSON.parse(localStorage.getItem("expInfo")) || [{
+    position: "",
+    company: "",
+    startDate: "",
+    endDate: "",     
+    jobDescription: ""
+  }])
+  const [educationInfo, setEducationInfo] = useState([{
+    place: "",
+    degree: "",
+    graduationDate: "",
+    studyDescription: "",
+  }])
+  const [resume, setResume] = useState(JSON.parse(localStorage.getItem("resume")) || {
+    personalInfo,
+    expInfo,
+    educationInfo
   })
   return (
     <div className="App">
-      <UserContext.Provider value={{personalInfo, setPersonalInfo, expInfo, setExpInfo, educationInfo, setEducationInfo}}>
+      <UserContext.Provider value={{personalInfo, setPersonalInfo, expInfo, setExpInfo, educationInfo, setEducationInfo, resume, setResume}}>
         {!resumeIsDone && <div className='input-side'>
           <Routes>
             <Route path='/' element={<Home />}/>
